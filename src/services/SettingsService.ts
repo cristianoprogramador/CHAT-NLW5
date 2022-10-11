@@ -30,6 +30,8 @@ class SettingsService {
     })
 
     await this.settingsRepository.save(settings)
+
+    return settings
   }
 
   async findByUsername(username: string) {
@@ -40,9 +42,10 @@ class SettingsService {
   }
 
   async update(username: string, chat: boolean) {
-    const settings = await this.settingsRepository.createQueryBuilder()
+    await this.settingsRepository
+    .createQueryBuilder()
       .update(Setting)
-      .set({ username, chat })
+      .set({ chat })
       .where("username = :username", {
         username
       }).execute()
